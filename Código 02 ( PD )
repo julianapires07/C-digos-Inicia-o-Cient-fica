@@ -1,1 +1,74 @@
-
+def classificar_estado_parkinson(pns_index, rmssd, sns_index, stress_index):
+ 
+    score_estresse = 0
+    score_calmaria = 0
+    score_flow = 0
+ 
+    # -------------------------
+    # ESTRESSE (peso maior em RMSSD e PNS)
+    # -------------------------
+    if pns_index <= -0.7:
+        score_estresse += 2
+    if rmssd < 15:
+        score_estresse += 2
+    if sns_index >= 1:
+        score_estresse += 1
+    if stress_index > 40:
+        score_estresse += 1
+ 
+    # -------------------------
+    # CALMARIA (valores realistas para DP)
+    # -------------------------
+    if pns_index >= -0.2:
+        score_calmaria += 2
+    if rmssd >= 30:
+        score_calmaria += 2
+    if sns_index <= 0:
+        score_calmaria += 1
+    if stress_index < 30:
+        score_calmaria += 1
+ 
+    # -------------------------
+    # FLOW (AJUSTADO PARA DP)
+    # -------------------------
+    if -1.0 < pns_index < 0.5:
+        score_flow += 2
+    if 15 <= rmssd <= 50:   
+        score_flow += 2
+    if 0 <= sns_index <= 1.5:
+        score_flow += 1
+    if 30 <= stress_index <= 45:
+        score_flow += 1
+ 
+    # -------------------------
+    # DECISÃO FINAL
+    # -------------------------
+    scores = {
+        "ESTRESSE": score_estresse,
+        "CALMARIA": score_calmaria,
+        "FLOW": score_flow
+    }
+ 
+    max_score = max(scores.values())
+    estados_maximos = [k for k, v in scores.items() if v == max_score]
+ 
+    # Estratégia de desempate
+    if len(estados_maximos) > 1:
+        # prioriza FLOW (estado intermediário fisiológico)
+        if "FLOW" in estados_maximos:
+            return "FLOW"
+        return "INDEFINIDO"
+ 
+    return estados_maximos[0]
+ 
+ 
+# -------------------------
+# Adicione os valores do Kubios aqui
+# -------------------------
+estado = classificar_estado_parkinson(
+    pns_index=-0.29,
+    rmssd=6,
+    sns_index=4.01,
+    stress_index=39
+)
+ 
