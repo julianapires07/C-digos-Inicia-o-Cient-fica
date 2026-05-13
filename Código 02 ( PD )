@@ -60,8 +60,6 @@ def classificar_estado_parkinson(pns_index, rmssd, sns_index, stress_index):
  
     return estados_maximos[0]
  
- 
-
 # Adicione os valores do Kubios aqui
 
 estado = classificar_estado_parkinson(
