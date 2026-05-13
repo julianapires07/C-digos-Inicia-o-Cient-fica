@@ -4,9 +4,8 @@ def classificar_estado_parkinson(pns_index, rmssd, sns_index, stress_index):
     score_calmaria = 0
     score_flow = 0
  
-    # -------------------------
     # ESTRESSE (peso maior em RMSSD e PNS)
-    # -------------------------
+    
     if pns_index <= -0.7:
         score_estresse += 2
     if rmssd < 15:
@@ -16,9 +15,9 @@ def classificar_estado_parkinson(pns_index, rmssd, sns_index, stress_index):
     if stress_index > 40:
         score_estresse += 1
  
-    # -------------------------
+   
     # CALMARIA (valores realistas para DP)
-    # -------------------------
+    
     if pns_index >= -0.2:
         score_calmaria += 2
     if rmssd >= 30:
@@ -28,9 +27,9 @@ def classificar_estado_parkinson(pns_index, rmssd, sns_index, stress_index):
     if stress_index < 30:
         score_calmaria += 1
  
-    # -------------------------
+   
     # FLOW (AJUSTADO PARA DP)
-    # -------------------------
+    
     if -1.0 < pns_index < 0.5:
         score_flow += 2
     if 15 <= rmssd <= 50:   
@@ -40,9 +39,9 @@ def classificar_estado_parkinson(pns_index, rmssd, sns_index, stress_index):
     if 30 <= stress_index <= 45:
         score_flow += 1
  
-    # -------------------------
+    
     # DECISÃO FINAL
-    # -------------------------
+    
     scores = {
         "ESTRESSE": score_estresse,
         "CALMARIA": score_calmaria,
@@ -62,9 +61,9 @@ def classificar_estado_parkinson(pns_index, rmssd, sns_index, stress_index):
     return estados_maximos[0]
  
  
-# -------------------------
+
 # Adicione os valores do Kubios aqui
-# -------------------------
+
 estado = classificar_estado_parkinson(
     pns_index=-0.29,
     rmssd=6,
